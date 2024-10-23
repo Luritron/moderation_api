@@ -1,7 +1,13 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from pydantic import BaseModel
 from typing import List, Optional
+
+from ninja import Schema
+
+class UserSchema(Schema):
+    username: str
+    password: str
 
 class CommentSchema(BaseModel):
     id: int
@@ -35,3 +41,7 @@ class CreatePostSchema(BaseModel):
 class CreateCommentSchema(BaseModel):
     post_id: int
     content: str
+
+class AnalyticsSchema(BaseModel):
+    date: date
+    count: int
