@@ -4,13 +4,14 @@ from ninja_jwt.authentication import JWTAuth
 from .models import Post, Comment
 from .schemas import PostCommentSchema, CommentSchema, CreatePostSchema, CreateCommentSchema, UserSchema, AnalyticsSchema
 from typing import List
-from datetime import datetime
+from datetime import datetime, timedelta
+from .tasks import generate_auto_reply
 
+from django.utils import timezone
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
 from django.db.models import Count
 from django.db.models.functions import TruncDate
-from ninja.security import django_auth
 
 import ollama
 
@@ -83,6 +84,13 @@ def create_comment(request, post_id: int, payload: CreateCommentSchema):
 
     post = get_object_or_404(Post, pk=post_id)
     comment = Comment.objects.create(post=post, **payload.dict())
+
+    # Проверяем, включен ли автоматический ответ для поста
+    if post.auto_reply_enabled:
+        delay_time = post.auto_reply_delay_minutes  # Время задержки в минутах, настроенное пользователем
+        # Запускаем задачу с задержкой
+        generate_auto_reply.apply_async((comment.id,), countdown=delay_time)
+
     return CommentSchema.from_orm(comment)
 
 @api.get('/comments-daily-breakdown', response=List[AnalyticsSchema], auth=JWTAuth())

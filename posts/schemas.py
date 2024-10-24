@@ -37,6 +37,8 @@ class PostCommentSchema(BaseModel):
 class CreatePostSchema(BaseModel):
     title: str
     content: str
+    auto_reply_enabled: Optional[bool] = False  # Поле для включения автоответа
+    auto_reply_delay_minutes: Optional[int] = 10  # Поле для задержки (в секундах)
 
 class CreateCommentSchema(BaseModel):
     post_id: int
