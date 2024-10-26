@@ -2,8 +2,8 @@
 - [Video presentation](youtube.com)
 
 # How to run project
-- [Download Ollama](https://ollama.com/download)
-- Download Gemma2 model by runnig command in cmd: __ollama run gemma2:2b__
-- pip install -r requirements.txt
-- First terminal: __python manage.py runserver__
-- Second terminal: __celery -A django_moderation_project.celery worker --pool=solo -l INFO__
+1. [Download Ollama](https://ollama.com/download)
+2. Download Gemma2 model by runnig command in cmd: __ollama run gemma2:2b__
+3. pip install -r requirements.txt
+4. First terminal: __python manage.py runserver__
+5. Second terminal: __celery -A django_moderation_project.celery worker --pool=solo -l INFO__
