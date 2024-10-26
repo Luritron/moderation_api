@@ -27,7 +27,7 @@ class PostCommentSchema(BaseModel):
 
     @classmethod
     def from_orm(cls, obj):
-        # Преобразуем комментарии
+        # Converting comments
         comments = [CommentSchema.from_orm(comment) for comment in obj.comments.all()]
         return cls(id=obj.id, title=obj.title, content=obj.content, created_date=obj.created_date, comments=comments)
 
@@ -37,8 +37,8 @@ class PostCommentSchema(BaseModel):
 class CreatePostSchema(BaseModel):
     title: str
     content: str
-    auto_reply_enabled: Optional[bool] = False  # Поле для включения автоответа
-    auto_reply_delay_minutes: Optional[int] = 10  # Поле для задержки (в секундах)
+    auto_reply_enabled: Optional[bool] = False
+    auto_reply_delay_minutes: Optional[int] = 10 # seconds
 
 class CreateCommentSchema(BaseModel):
     post_id: int

@@ -3,26 +3,23 @@ from celery import shared_task
 from .models import Comment, Post
 import ollama
 from django.utils import timezone
-import time
 
 @shared_task
 def generate_auto_reply(comment_id):
-    # Получаем комментарий
     comment = Comment.objects.get(id=comment_id)
     post = comment.post
 
-    # Генерация релевантного ответа с помощью AI
+    # Generating answer by Gemma 2
     response = ollama.generate(
         model="gemma2:2b",
         prompt=f"""
-            На основе следующего поста:
+            Based on the following post:
             "{post.content}"
-            и комментария:
+            and comment:
             "{comment.content}",
-            сгенерируй релевантный ответ до 100 символов. Не более.
+            generate a relevant response of up to 100 characters. Maximum.
             """
     )
 
-    # Добавляем новый комментарий-ответ
     reply_content = response['response']
     Comment.objects.create(post=post, content=reply_content, created_date=timezone.now())
