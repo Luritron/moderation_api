@@ -4,4 +4,4 @@
 # How to run project
 - pip install -r requirements.txt
 - [Download Ollama](https://ollama.com/download)
-- Download Gemma2 model in cmd: [ollama run gemma2:2b]
+- Download Gemma2 model by runnig command in cmd: __ollama run gemma2:2b__
