@@ -22,17 +22,17 @@ from ninja_jwt.tokens import RefreshToken
 @api.post("/register")
 def register(request, payload: UserSchema):
     if User.objects.filter(username=payload.username).exists():
-        return api.create_response(request, {"error": "Пользователь уже существует"}, status=400)
+        return api.create_response(request, {"error": "User already exist"}, status=400)
 
     user = User.objects.create_user(username=payload.username, password=payload.password)
-    return {"success": f"Пользователь {user.username} успешно зарегистрирован"}
+    return {"success": f"User {user.username} successfully created"}
 
 # JWT token
 @api.post("/login")
 def login_user(request, payload: UserSchema):
     user = authenticate(username=payload.username, password=payload.password)
     if user is None:
-        return api.create_response(request, {"error": "Неверные учетные данные"}, status=401)
+        return api.create_response(request, {"error": "Inaccurate account info"}, status=401)
 
     refresh = RefreshToken.for_user(user)
     return {
