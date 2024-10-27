@@ -1,5 +1,5 @@
 # Test task for Python Developer (Jun/Mid) - Starnavi
-- [Video presentation](youtube.com)
+- [Video presentation](https://youtu.be/ZZBmYYKMjaw)
 
 # How to run project
 1. [Download Ollama](https://ollama.com/download)
